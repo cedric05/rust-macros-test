@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "getter-derive",
+    "getter-derive-example"
+]
