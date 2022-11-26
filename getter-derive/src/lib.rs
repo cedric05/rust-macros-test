@@ -87,17 +87,25 @@ pub fn getter_derive(input: TokenStream) -> TokenStream {
 
 #[proc_macro_attribute]
 pub fn length(args: TokenStream, input: TokenStream) -> TokenStream {
+    // read struct
     let item = parse_macro_input!(input as ItemStruct);
+    // read args
     let args = parse_macro_input!(args as AttributeArgs);
+
+    // reading first arg
     let arg = args.get(0).unwrap();
     match arg {
+        // if it is literal
         syn::NestedMeta::Lit(lit) => match lit {
             Lit::Int(len_lit) => {
+                // if attribute is int
                 let len: u8 = len_lit.base10_parse().unwrap();
 
+                // read struct name
                 let ident_name = item.ident.clone();
 
                 quote! {
+                    // implementation
                     #item
                     impl #ident_name {
                         fn size()->u8{
